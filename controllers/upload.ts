@@ -19,6 +19,8 @@ const upload = async (req: Request, res: Response) =>{
 
     stream.on("finish", async () => {
       try {
+    throw new Error("plm")
+
         // Prepare FormData for Discord
         const formData = new FormData();
         formData.append("file", fs.createReadStream(tempFilePath), { filename });

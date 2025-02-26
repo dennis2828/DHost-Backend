@@ -28,6 +28,7 @@ const upload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         file.pipe(stream);
         stream.on("finish", () => __awaiter(void 0, void 0, void 0, function* () {
             try {
+                throw new Error("plm");
                 // Prepare FormData for Discord
                 const formData = new form_data_1.default();
                 formData.append("file", fs_1.default.createReadStream(tempFilePath), { filename });
