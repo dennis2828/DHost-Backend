@@ -25,7 +25,7 @@ const upload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         // Pipe file data directly into the FormData stream
         const formData = new form_data_1.default();
         formData.append("file", passThrough, { filename, contentType: mimeType });
-        formData.append("payload_json", JSON.stringify({ content: "Here's an image!" }));
+        formData.append("payload_json", JSON.stringify({ content: generatePrivacyKey() }));
         // Stream file data directly into FormData
         file.pipe(passThrough);
         // Send to Discord
@@ -64,5 +64,13 @@ function generateUploadLink(channelId, messageId) {
             return "";
         }
     });
+}
+function generatePrivacyKey() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomStr = '';
+    for (let i = 0; i < 6; i++) {
+        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return `dhost-${randomStr}`;
 }
 module.exports = { upload };

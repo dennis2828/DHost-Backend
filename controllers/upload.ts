@@ -15,7 +15,7 @@ const upload = async (req: Request, res: Response) =>{
     // Pipe file data directly into the FormData stream
     const formData = new FormData();
     formData.append("file", passThrough, { filename, contentType: mimeType });
-    formData.append("payload_json", JSON.stringify({ content: "Here's an image!" }));
+    formData.append("payload_json", JSON.stringify({ content: generatePrivacyKey() }));
 
     // Stream file data directly into FormData
     file.pipe(passThrough);
@@ -62,6 +62,15 @@ async function generateUploadLink(channelId: string, messageId: string): Promise
     
     return "";
   }
+}
+
+function generatePrivacyKey(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomStr = '';
+  for (let i = 0; i < 6; i++) {
+      randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `dhost-${randomStr}`;
 }
 
 module.exports = {upload};
