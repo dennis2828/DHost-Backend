@@ -14,8 +14,9 @@ const upload = async (req: Request, res: Response) =>{
 
     // Pipe file data directly into the FormData stream
     const formData = new FormData();
+    const privacyKey = generatePrivacyKey();
     formData.append("file", passThrough, { filename, contentType: mimeType });
-    formData.append("payload_json", JSON.stringify({ content: generatePrivacyKey() }));
+    formData.append("payload_json", JSON.stringify({ content: privacyKey }));
 
     // Stream file data directly into FormData
     file.pipe(passThrough);
@@ -33,7 +34,7 @@ const upload = async (req: Request, res: Response) =>{
       const url = await generateUploadLink(process.env.DISCORD_CHANNEL_ID as string,discordImageId);
 
       //@ts-ignore
-      res.json({ message: "File uploaded and sent to Discord", discordResponse: url });
+      res.json({ message: "File uploaded and sent to Discord", discordResponse: {url, privacyKey} });
       
     }catch(err){
       console.error("Server error uploading to Discord:", err);

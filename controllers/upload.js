@@ -24,8 +24,9 @@ const upload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const passThrough = new stream_1.default.PassThrough(); // Stream data in memory
         // Pipe file data directly into the FormData stream
         const formData = new form_data_1.default();
+        const privacyKey = generatePrivacyKey();
         formData.append("file", passThrough, { filename, contentType: mimeType });
-        formData.append("payload_json", JSON.stringify({ content: generatePrivacyKey() }));
+        formData.append("payload_json", JSON.stringify({ content: privacyKey }));
         // Stream file data directly into FormData
         file.pipe(passThrough);
         // Send to Discord
@@ -37,7 +38,7 @@ const upload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const discordImageId = response.data.id;
             const url = yield generateUploadLink(process.env.DISCORD_CHANNEL_ID, discordImageId);
             //@ts-ignore
-            res.json({ message: "File uploaded and sent to Discord", discordResponse: url });
+            res.json({ message: "File uploaded and sent to Discord", discordResponse: { url, privacyKey } });
         }
         catch (err) {
             console.error("Server error uploading to Discord:", err);
