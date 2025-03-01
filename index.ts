@@ -9,8 +9,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://dhost-beige.vercel.app", // ✅ Allow requests only from your frontend
+  methods: ["GET", "POST"],  // ✅ Define allowed methods
+  allowedHeaders: ["Content-Type", "Authorization"] // ✅ Define allowed headers
+}));
 app.use(express.json());
 
 // Routes
