@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: "https://dhost-beige.vercel.app", // ✅ Allow requests only from your frontend
+  origin: ["https://dhost-beige.vercel.app", "http://localhost:3000"], // ✅ Allow requests only from your frontend
   methods: ["GET", "POST"],  // ✅ Define allowed methods
   allowedHeaders: ["Content-Type", "Authorization"] // ✅ Define allowed headers
 }));
